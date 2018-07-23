@@ -58,7 +58,7 @@ public class ToDoServiceImpl implements ToDoService {
 
 	@Override
 	public ToDoDto createToDo(ToDoDto todoDto) {
-
+//  "targetDate": "2018-04-05T12:03:04.123+0000"
 		ToDoEntity todoEntity = new ToDoEntity();
 		//BeanUtils.copyProperties(todo, todoEntity);
 		todoEntity = mapper.map(todoDto, ToDoEntity.class);

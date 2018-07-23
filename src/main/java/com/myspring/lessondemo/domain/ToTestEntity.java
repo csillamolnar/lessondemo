@@ -12,10 +12,11 @@ import javax.persistence.ManyToOne;
 
 @Entity(name="totests")
 public class ToTestEntity implements ToLearn{
-	
+
 	@Id
 	@GeneratedValue
-	private long id;
+	@Column(name="id")
+	private long toTestId;
 	
 	@ManyToOne
     @JoinColumn(name = "user_id")
@@ -30,12 +31,12 @@ public class ToTestEntity implements ToLearn{
 	@Column(length=120)
 	private String status;
 
-	public long getId() {
-		return id;
+	public long getToTestId() {
+		return toTestId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setToTestId(long toTestId) {
+		this.toTestId = toTestId;
 	}
 
 	public UserEntity getUser() {

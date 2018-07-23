@@ -26,76 +26,60 @@ import com.myspring.lessondemo.ui.model.request.ToDoDetailsRequestModel;
 import com.myspring.lessondemo.ui.model.request.UserDetailsRequestModel;
 
 
-
 @RestController
 @RequestMapping("todos") // http://localhost:8080/users
 public class ToDoController {
-	
-	private Mapper mapper;
-	
-	@Autowired
-	ToDoService toDoService;
-	
-	public ToDoController(Mapper mapper) {
 
-		this.mapper = mapper;
-	}
+    private Mapper mapper;
 
-	@GetMapping(path="/{id}")
-	public ToDoRest getToDo(@PathVariable String id)
-	{
-		ToDoRest returnValue = new ToDoRest();
-		
-		ToDoDto toDoDto = toDoService.getToDoById(Long.valueOf(id));
-		
-		returnValue = mapper.map(toDoDto, ToDoRest.class);
-		
-		//BeanUtils.copyProperties(toDoDto, returnValue); 
-		
-		return returnValue;
-	}
-	
-	@PostMapping()
-	public ToDoRest createToDo(@RequestBody ToDoDetailsRequestModel toDoDetails) throws Exception
-	{
-		ToDoRest returnValue = new ToDoRest();
+    @Autowired
+    ToDoService toDoService;
 
-		ToDoDto todoDto = new ToDoDto();
-		todoDto = mapper.map(toDoDetails, ToDoDto.class);
-		//BeanUtils.copyProperties(toDoDetails, todoDto);
-		
-	    ToDoDto createdToDo = toDoService.createToDo(todoDto);
-	//	BeanUtils.copyProperties(createdToDo, returnValue);
-	    returnValue = mapper.map(createdToDo, ToDoRest.class);
+    public ToDoController(Mapper mapper) {
 
-	    return returnValue;
-	} 
-	
-	@GetMapping()
-	public List<ToDoRest> getToDos()
-	{
-		List<ToDoRest> returnValue = new ArrayList<>();
-		
-		List<ToDoDto> todos = toDoService.getToDos();
-		
+        this.mapper = mapper;
+    }
+
+    @GetMapping(path = "/{id}")
+    public ToDoRest getToDo(@PathVariable String id) {
+        ToDoRest returnValue = new ToDoRest();
+
+        ToDoDto toDoDto = toDoService.getToDoById(Long.valueOf(id));
+
+        returnValue = mapper.map(toDoDto, ToDoRest.class);
+
+        //BeanUtils.copyProperties(toDoDto, returnValue);
+
+        return returnValue;
+    }
+
+    @PostMapping()
+    public ToDoDto createToDo(@RequestBody ToDoDto toDoDto) {
+        return toDoService.createToDo(toDoDto);
+    }
+
+    @GetMapping()
+    public List<ToDoRest> getToDos() {
+        List<ToDoRest> returnValue = new ArrayList<>();
+
+        List<ToDoDto> todos = toDoService.getToDos();
+
         for (ToDoDto toDoDto : todos) {
-           ToDoRest todoModel = new ToDoRest();
-           todoModel =mapper.map(toDoDto, ToDoRest.class);
-           returnValue.add(todoModel);
-         //   BeanUtils.copyProperties(userDto, userModel);
-         
+            ToDoRest todoModel = new ToDoRest();
+            todoModel = mapper.map(toDoDto, ToDoRest.class);
+            returnValue.add(todoModel);
+            //   BeanUtils.copyProperties(userDto, userModel);
+
         }
-		
-		return returnValue;
-	} 
-	
-	@DeleteMapping(path="/{id}")
-	public void deleteUser(@PathVariable String id)
-	{
-		toDoService.deleteToDo((Long.valueOf(id)));
-		return;
-	} 
-	
-	
+
+        return returnValue;
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteUser(@PathVariable String id) {
+        toDoService.deleteToDo((Long.valueOf(id)));
+        return;
+    }
+
 
 } 

@@ -1,41 +1,59 @@
 package com.myspring.lessondemo.dto;
 
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import java.io.Serializable;
 
-public class ToTestDto implements Serializable{
-	
+public class ToTestDto implements Serializable {
 
-	private static final long serialVersionUID = 6835192601898364280L;
-	private long id;
+
+    private static final long serialVersionUID = 6835192601898364280L;
+
+    @Field
+            (
+                    type = FieldType.Long
+            )
+    private long toTestId;
     private String description;
     private String status;
-    private long userId;
+    @Field(
+            type = FieldType.Nested
+    )
+    private UserDto user;
 
-    
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public long getUserId() {
-		return userId;
-	}
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
-    
+
+    public long getToTestId() {
+        return toTestId;
+    }
+
+    public void setToTestId(long toTestId) {
+        this.toTestId = toTestId;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
 }

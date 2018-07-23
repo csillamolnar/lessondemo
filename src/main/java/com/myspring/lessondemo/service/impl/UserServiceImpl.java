@@ -8,6 +8,10 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +28,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 
-	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Override
 	public UserDto createUser(UserDto user) {
 
@@ -33,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(user, userEntity);
-
+		userEntity.setEncriptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
 		UserEntity storedUserDetails = userRepository.save(userEntity);
 
@@ -60,12 +65,12 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public UserDto getUserByUserId(long userId) {
+	public UserDto getUserByUserId(String userId) {
 		UserDto returnValue = new UserDto();
-		UserEntity userEntity = userRepository.findById(userId).get();
+		UserEntity userEntity = userRepository.findByUserId(userId);
 
 		if (userEntity == null)
-			throw new RuntimeException("User with ID: " + userId + " not found");
+			throw new UsernameNotFoundException("User with ID: " + userId + " not found");
 
 		BeanUtils.copyProperties(userEntity, returnValue);
 
@@ -119,7 +124,15 @@ public class UserServiceImpl implements UserService {
         }
 		
 		return returnValue;
-	} 
+	}
 
 
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		UserEntity userEntity = userRepository.findByEmail(email);
+		if(userEntity == null) {
+			throw new UsernameNotFoundException(email);
+		}
+		return new User(userEntity.getEmail(), userEntity.getEncriptedPassword(), new ArrayList<>());
+	}
 }

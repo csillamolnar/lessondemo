@@ -22,7 +22,7 @@ import com.myspring.lessondemo.ui.model.request.UserDetailsRequestModel;
 
 
 @RestController
-@RequestMapping("users") // http://localhost:8080/users
+@RequestMapping("users/login") // http://localhost:8080/users
 public class UserController {
 	
 	@Autowired
@@ -33,7 +33,7 @@ public class UserController {
 	{
 		UserRest returnValue = new UserRest();
 		
-		UserDto userDto = userService.getUserByUserId(Long.valueOf(id));
+		UserDto userDto = userService.getUserByUserId(id);
 		BeanUtils.copyProperties(userDto, returnValue); 
 		
 		return returnValue;

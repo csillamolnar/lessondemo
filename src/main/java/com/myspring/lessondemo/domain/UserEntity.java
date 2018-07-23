@@ -34,6 +34,17 @@ public class UserEntity implements Serializable {
 	private String email;
 
 
+	private String encriptedPassword;
+
+
+
+	private String emailVerificationToken;
+
+
+
+	private String emailVerificationStatus;
+
+
 	public long getId() {
 		return id;
 	}
@@ -75,7 +86,29 @@ public class UserEntity implements Serializable {
 	}
 
 
-	
+	public String getEncriptedPassword() {
+		return encriptedPassword;
+	}
+
+	public void setEncriptedPassword(String encriptedPassword) {
+		this.encriptedPassword = encriptedPassword;
+	}
+
+	public String getEmailVerificationToken() {
+		return emailVerificationToken;
+	}
+
+	public void setEmailVerificationToken(String emailVerificationToken) {
+		this.emailVerificationToken = emailVerificationToken;
+	}
+
+	public String getEmailVerificationStatus() {
+		return emailVerificationStatus;
+	}
+
+	public void setEmailVerificationStatus(String emailVerificationStatus) {
+		this.emailVerificationStatus = emailVerificationStatus;
+	}
 	
 
 }
